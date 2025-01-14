@@ -15,10 +15,6 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/users", userRoutes, (req,res)=>{
-  console.log("hii");
-  console.log(req.params);
-
-});
+app.use("/users", userRoutes);
 
 module.exports = app;
