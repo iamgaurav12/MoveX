@@ -1,0 +1,3 @@
+1. netstat -ano | findstr :4001
+2. taskkill /PID 1234 /F
+1234 is variable 4 digit number

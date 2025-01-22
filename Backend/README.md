@@ -26,7 +26,7 @@ The request body must be a JSON object containing the following fields:
     "lastname": "Doe"
   },
   "email": "john.doe@example.com",
-  "password": "password123"
+    "password": "password123"
 }
 ```
 
@@ -163,3 +163,84 @@ The request body must be a JSON object containing the following fields:
 
 ## Notes
 - Ensure that the `Content-Type` header is set to `application/json` when making the request.
+
+# User Profile Endpoint
+
+## Description
+This endpoint allows an authenticated user to retrieve their profile information.
+
+## HTTP Method
+`GET`
+
+## Endpoint
+`/users/profile`
+
+## Responses
+
+### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing the user's profile information.
+
+#### Example Success Response
+```json
+{
+  "_id": "user_id",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com"
+}
+```
+
+### Authentication Errors
+- **Status Code**: 401 Unauthorized
+- **Response Body**: A JSON object containing an error message.
+
+#### Example Authentication Error Response
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+## Notes
+- Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
+
+# User Logout Endpoint
+
+## Description
+This endpoint allows an authenticated user to log out by invalidating their JWT token.
+
+## HTTP Method
+`GET`
+
+## Endpoint
+`/users/logout`
+
+## Responses
+
+### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing a success message.
+
+#### Example Success Response
+```json
+{
+  "message": "Logged Out"
+}
+```
+
+### Authentication Errors
+- **Status Code**: 401 Unauthorized
+- **Response Body**: A JSON object containing an error message.
+
+#### Example Authentication Error Response
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+## Notes
+- Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
