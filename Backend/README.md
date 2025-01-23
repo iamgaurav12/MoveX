@@ -274,16 +274,16 @@ The request body must be a JSON object containing the following fields:
 ```json
 {
   "fullname": {
-    "firstname": "John",
-    "lastname": "Doe"
+    "firstname": "John", // required, minimum 3 characters
+    "lastname": "Doe" // optional, minimum 3 characters
   },
-  "email": "john.doe@example.com",
-  "password": "password123",
+  "email": "john.doe@example.com", // required, must be a valid email
+  "password": "password123", // required, minimum 6 characters
   "vehicle": {
-    "color": "red",
-    "plate": "ABC123",
-    "capacity": 4,
-    "vehicleType": "car"
+    "color": "red", // required, minimum 3 characters
+    "plate": "ABC123", // required, minimum 3 characters
+    "capacity": 4, // required, minimum 1
+    "vehicleType": "car" // required, must be one of 'car', 'motorcycle', 'auto'
   }
 }
 ```
@@ -365,3 +365,180 @@ The request body must be a JSON object containing the following fields:
 ## Notes
 - Ensure that the `Content-Type` header is set to `application/json` when making the request.
 - The password is hashed before being stored in the database.
+
+# Captain Login Endpoint
+
+## Description
+This endpoint allows an existing captain to log in. It validates the input data, checks the captain's credentials, and returns an authentication token upon successful login.
+
+## HTTP Method
+`POST`
+
+## Endpoint
+`/captains/login`
+
+## Request Body
+The request body must be a JSON object containing the following fields:
+
+- `email` (string, required, must be a valid email)
+- `password` (string, required, minimum 6 characters)
+
+### Example Request Body
+```json
+{
+  "email": "john.doe@example.com", // required, must be a valid email
+  "password": "password123" // required, minimum 6 characters
+}
+```
+
+## Responses
+
+### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing the authentication token and captain details.
+
+#### Example Success Response
+```json
+{
+  "token": "your_jwt_token",
+  "captain": {
+    "_id": "captain_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+### Validation Errors
+- **Status Code**: 400 Bad Request
+- **Response Body**: A JSON object containing an array of validation error messages.
+
+#### Example Validation Error Response
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be at least 6 characters long",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+### Authentication Errors
+- **Status Code**: 401 Unauthorized
+- **Response Body**: A JSON object containing an error message.
+
+#### Example Authentication Error Response
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+## Notes
+- Ensure that the `Content-Type` header is set to `application/json` when making the request.
+
+# Captain Profile Endpoint
+
+## Description
+This endpoint allows an authenticated captain to retrieve their profile information.
+
+## HTTP Method
+`GET`
+
+## Endpoint
+`/captains/profile`
+
+## Responses
+
+### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing the captain's profile information.
+
+#### Example Success Response
+```json
+{
+  "captain": {
+    "_id": "captain_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+### Authentication Errors
+- **Status Code**: 401 Unauthorized
+- **Response Body**: A JSON object containing an error message.
+
+#### Example Authentication Error Response
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+## Notes
+- Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
+
+# Captain Logout Endpoint
+
+## Description
+This endpoint allows an authenticated captain to log out by invalidating their JWT token.
+
+## HTTP Method
+`GET`
+
+## Endpoint
+`/captains/logout`
+
+## Responses
+
+### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing a success message.
+
+#### Example Success Response
+```json
+{
+  "message": "Logged Out"
+}
+```
+
+### Authentication Errors
+- **Status Code**: 401 Unauthorized
+- **Response Body**: A JSON object containing an error message.
+
+#### Example Authentication Error Response
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+## Notes
+- Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
