@@ -7,16 +7,20 @@ This project is a frontend application for Uber, built with React and React Rout
 - **Home**: The landing page of the application.
 - **User Login**: Page for users to log in.
 - **User Signup**: Page for users to sign up.
+- **User Logout**: Page for users to log out.
 - **Captain Login**: Page for captains to log in.
-- **Captain Signup**: Page for captains to sign up.\
+- **Captain Signup**: Page for captains to sign up.
 
 ## Routes
 
-- `/`: Home page
-- `/login`: User login page
-- `/signup`: User signup page
-- `/captain-login`: Captain login page
-- `/captain-signup`: Captain signup page\
+| Route            | Description            |
+|------------------|------------------------|
+| `/`              | Home page              |
+| `/login`         | User login page        |
+| `/signup`        | User signup page       |
+| `/user/logout`   | User logout page       |
+| `/captain-login` | Captain login page     |
+| `/captain-signup`| Captain signup page    |
 
 ## Getting Started
 
@@ -43,8 +47,9 @@ This will start the development server and open the application in your default 
 1. **Home Page**: Navigate to the home page to get started.
 2. **User Login**: Click on "Continue" to go to the user login page. Enter your email and password to log in.
 3. **User Signup**: If you are a new user, click on "Create new Account" on the login page to sign up.
-4. **Captain Login**: If you are a captain, click on "Sign In as Captain" on the user login page to go to the captain login page. Enter your email and password to log in.
-5. **Captain Signup**: If you are a new captain, click on "Register as a Captain" on the captain login page to sign up.
+4. **User Logout**: To log out, navigate to the user logout page.
+5. **Captain Login**: If you are a captain, click on "Sign In as Captain" on the user login page to go to the captain login page. Enter your email and password to log in.
+6. **Captain Signup**: If you are a new captain, click on "Register as a Captain" on the captain login page to sign up.
 
 ## Technologies Used
 
