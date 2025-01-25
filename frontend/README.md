@@ -60,5 +60,6 @@ This will start the development server and open the application in your default 
 - React Router
 - TailwindCSS
 - Axios
+- GSAP Animation
 
 
