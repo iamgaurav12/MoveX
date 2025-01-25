@@ -10,6 +10,7 @@ This project is a frontend application for Uber, built with React and React Rout
 - **User Logout**: Page for users to log out.
 - **Captain Login**: Page for captains to log in.
 - **Captain Signup**: Page for captains to sign up.
+- **Captain Logout**: Page for captains to log out.
 
 ## Routes
 
@@ -21,6 +22,7 @@ This project is a frontend application for Uber, built with React and React Rout
 | `/user/logout`   | User logout page       |
 | `/captain-login` | Captain login page     |
 | `/captain-signup`| Captain signup page    |
+| `/captain-logout`| Captain logout page    |
 
 ## Getting Started
 
@@ -50,13 +52,13 @@ This will start the development server and open the application in your default 
 4. **User Logout**: To log out, navigate to the user logout page.
 5. **Captain Login**: If you are a captain, click on "Sign In as Captain" on the user login page to go to the captain login page. Enter your email and password to log in.
 6. **Captain Signup**: If you are a new captain, click on "Register as a Captain" on the captain login page to sign up.
+7. **Captain Logout**: To log out, navigate to the captain logout page.
 
 ## Technologies Used
 
 - React
 - React Router
-- JavaScript
-- HTML
 - TailwindCSS
+- Axios
 
 
