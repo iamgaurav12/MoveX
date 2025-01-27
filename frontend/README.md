@@ -11,18 +11,21 @@ This project is a frontend application for Uber, built with React and React Rout
 - **Captain Login**: Page for captains to log in.
 - **Captain Signup**: Page for captains to sign up.
 - **Captain Logout**: Page for captains to log out.
+- **Riding**: Page for the riding experience.
 
 ## Routes
 
-| Route            | Description            |
-|------------------|------------------------|
-| `/`              | Home page              |
-| `/login`         | User login page        |
-| `/signup`        | User signup page       |
-| `/user/logout`   | User logout page       |
-| `/captain-login` | Captain login page     |
-| `/captain-signup`| Captain signup page    |
-| `/captain-logout`| Captain logout page    |
+| Route              | Description            |
+|--------------------|------------------------|
+| `/`                | Home page              |
+| `/login`           | User login page        |
+| `/signup`          | User signup page       |
+| `/user/logout`     | User logout page       |
+| `/captain-login`   | Captain login page     |
+| `/captain-signup`  | Captain signup page    |
+| `/captain-logout`  | Captain logout page    |
+| `/home`            | User home page         |
+| `/riding`          | Riding page            |
 
 ## Getting Started
 
