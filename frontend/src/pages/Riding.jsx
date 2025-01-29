@@ -5,9 +5,13 @@ import { Link } from "react-router-dom";
 const Riding = () => {
   return (
     <div className="h-screen">
-      <Link to='/home' className="fixed top-2 right-2 h-10 w-10 bg-white items-center justify-center rounded-full">
-        <i className="fixed text-lg right-5 top-3.5 font-medium ri-home-5-line"></i>
+      <Link
+        to="/home"
+        className="fixed top-2 right-2 h-10 w-10 bg-white flex items-center justify-center rounded-full shadow"
+      >
+        <i className="text-lg font-medium ri-home-5-line"></i>
       </Link>
+
       <div className="h-1/2">
         <img className="h-full w-full object-cover" src={uberMap} alt="" />
       </div>
