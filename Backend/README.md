@@ -1,15 +1,19 @@
 # User Registration Endpoint
 
 ## Description
+
 This endpoint allows for the registration of a new user. It performs input validation, hashes the password, creates a new user record in the database, and returns an authentication token upon successful registration.
 
 ## HTTP Method
+
 `POST`
 
 ## Endpoint
+
 `/users/register`
 
 ## Request Body
+
 The request body must be a JSON object containing the following fields:
 
 - `fullname`: An object with the following properties:
@@ -19,6 +23,7 @@ The request body must be a JSON object containing the following fields:
 - `password` (string, required, minimum 6 characters)
 
 ### Example Request Body
+
 ```json
 {
   "fullname": {
@@ -26,17 +31,19 @@ The request body must be a JSON object containing the following fields:
     "lastname": "Doe"
   },
   "email": "john.doe@example.com",
-    "password": "password123"
+  "password": "password123"
 }
 ```
 
 ## Responses
 
 ### Success
+
 - **Status Code**: 201 Created
 - **Response Body**: A JSON object containing the authentication token and user details.
 
 #### Example Success Response
+
 ```json
 {
   "token": "your_jwt_token",
@@ -52,10 +59,12 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ### Validation Errors
+
 - **Status Code**: 400 Bad Request
 - **Response Body**: A JSON object containing an array of validation error messages.
 
 #### Example Validation Error Response
+
 ```json
 {
   "errors": [
@@ -79,27 +88,33 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ## Notes
+
 - Ensure that the `Content-Type` header is set to `application/json` when making the request.
 - The password is hashed before being stored in the database.
 
 # User Login Endpoint
 
 ## Description
+
 This endpoint allows an existing user to log in. It validates the input data, checks the user's credentials, and returns an authentication token upon successful login.
 
 ## HTTP Method
+
 `POST`
 
 ## Endpoint
+
 `/users/login`
 
 ## Request Body
+
 The request body must be a JSON object containing the following fields:
 
 - `email` (string, required, must be a valid email)
 - `password` (string, required, minimum 6 characters)
 
 ### Example Request Body
+
 ```json
 {
   "email": "john.doe@example.com",
@@ -110,10 +125,12 @@ The request body must be a JSON object containing the following fields:
 ## Responses
 
 ### Success
+
 - **Status Code**: 200 OK
 - **Response Body**: A JSON object containing the authentication token and user details.
 
 #### Example Success Response
+
 ```json
 {
   "token": "your_jwt_token",
@@ -129,10 +146,12 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ### Validation Errors
+
 - **Status Code**: 400 Bad Request
 - **Response Body**: A JSON object containing an array of validation error messages.
 
 #### Example Validation Error Response
+
 ```json
 {
   "errors": [
@@ -151,10 +170,12 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ### Authentication Errors
+
 - **Status Code**: 401 Unauthorized
 - **Response Body**: A JSON object containing an error message.
 
 #### Example Authentication Error Response
+
 ```json
 {
   "message": "Invalid Email or password"
@@ -162,26 +183,32 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ## Notes
+
 - Ensure that the `Content-Type` header is set to `application/json` when making the request.
 
 # User Profile Endpoint
 
 ## Description
+
 This endpoint allows an authenticated user to retrieve their profile information.
 
 ## HTTP Method
+
 `GET`
 
 ## Endpoint
+
 `/users/profile`
 
 ## Responses
 
 ### Success
+
 - **Status Code**: 200 OK
 - **Response Body**: A JSON object containing the user's profile information.
 
 #### Example Success Response
+
 ```json
 {
   "_id": "user_id",
@@ -194,10 +221,12 @@ This endpoint allows an authenticated user to retrieve their profile information
 ```
 
 ### Authentication Errors
+
 - **Status Code**: 401 Unauthorized
 - **Response Body**: A JSON object containing an error message.
 
 #### Example Authentication Error Response
+
 ```json
 {
   "message": "Unauthorized"
@@ -205,26 +234,32 @@ This endpoint allows an authenticated user to retrieve their profile information
 ```
 
 ## Notes
+
 - Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
 
 # User Logout Endpoint
 
 ## Description
+
 This endpoint allows an authenticated user to log out by invalidating by blacklisting their JWT token.
 
 ## HTTP Method
+
 `GET`
 
 ## Endpoint
+
 `/users/logout`
 
 ## Responses
 
 ### Success
+
 - **Status Code**: 200 OK
 - **Response Body**: A JSON object containing a success message.
 
 #### Example Success Response
+
 ```json
 {
   "message": "Logged Out"
@@ -232,10 +267,12 @@ This endpoint allows an authenticated user to log out by invalidating by blackli
 ```
 
 ### Authentication Errors
+
 - **Status Code**: 401 Unauthorized
 - **Response Body**: A JSON object containing an error message.
 
 #### Example Authentication Error Response
+
 ```json
 {
   "message": "Unauthorized"
@@ -243,20 +280,25 @@ This endpoint allows an authenticated user to log out by invalidating by blackli
 ```
 
 ## Notes
+
 - Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
 
 # Captain Registration Endpoint
 
 ## Description
+
 This endpoint allows for the registration of a new captain. It performs input validation, hashes the password, creates a new captain record in the database, and returns an authentication token upon successful registration.
 
 ## HTTP Method
+
 `POST`
 
 ## Endpoint
+
 `/captains/register`
 
 ## Request Body
+
 The request body must be a JSON object containing the following fields:
 
 - `fullname`: An object with the following properties:
@@ -271,6 +313,7 @@ The request body must be a JSON object containing the following fields:
   - `vehicleType` (string, required, must be one of `car`, `motorcycle`, `auto`)
 
 ### Example Request Body
+
 ```json
 {
   "fullname": {
@@ -291,10 +334,12 @@ The request body must be a JSON object containing the following fields:
 ## Responses
 
 ### Success
+
 - **Status Code**: 201 Created
 - **Response Body**: A JSON object containing the authentication token and captain details.
 
 #### Example Success Response
+
 ```json
 {
   "token": "your_jwt_token",
@@ -316,10 +361,12 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ### Validation Errors
+
 - **Status Code**: 400 Bad Request
 - **Response Body**: A JSON object containing an array of validation error messages.
 
 #### Example Validation Error Response
+
 ```json
 {
   "errors": [
@@ -363,27 +410,33 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ## Notes
+
 - Ensure that the `Content-Type` header is set to `application/json` when making the request.
 - The password is hashed before being stored in the database.
 
 # Captain Login Endpoint
 
 ## Description
+
 This endpoint allows an existing captain to log in. It validates the input data, checks the captain's credentials, and returns an authentication token upon successful login.
 
 ## HTTP Method
+
 `POST`
 
 ## Endpoint
+
 `/captains/login`
 
 ## Request Body
+
 The request body must be a JSON object containing the following fields:
 
 - `email` (string, required, must be a valid email)
 - `password` (string, required, minimum 6 characters)
 
 ### Example Request Body
+
 ```json
 {
   "email": "john.doe@example.com", // required, must be a valid email
@@ -394,10 +447,12 @@ The request body must be a JSON object containing the following fields:
 ## Responses
 
 ### Success
+
 - **Status Code**: 200 OK
 - **Response Body**: A JSON object containing the authentication token and captain details.
 
 #### Example Success Response
+
 ```json
 {
   "token": "your_jwt_token",
@@ -419,10 +474,12 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ### Validation Errors
+
 - **Status Code**: 400 Bad Request
 - **Response Body**: A JSON object containing an array of validation error messages.
 
 #### Example Validation Error Response
+
 ```json
 {
   "errors": [
@@ -441,10 +498,12 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ### Authentication Errors
+
 - **Status Code**: 401 Unauthorized
 - **Response Body**: A JSON object containing an error message.
 
 #### Example Authentication Error Response
+
 ```json
 {
   "message": "Invalid email or password"
@@ -452,26 +511,32 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ## Notes
+
 - Ensure that the `Content-Type` header is set to `application/json` when making the request.
 
 # Captain Profile Endpoint
 
 ## Description
+
 This endpoint allows an authenticated captain to retrieve their profile information.
 
 ## HTTP Method
+
 `GET`
 
 ## Endpoint
+
 `/captains/profile`
 
 ## Responses
 
 ### Success
+
 - **Status Code**: 200 OK
 - **Response Body**: A JSON object containing the captain's profile information.
 
 #### Example Success Response
+
 ```json
 {
   "captain": {
@@ -492,10 +557,12 @@ This endpoint allows an authenticated captain to retrieve their profile informat
 ```
 
 ### Authentication Errors
+
 - **Status Code**: 401 Unauthorized
 - **Response Body**: A JSON object containing an error message.
 
 #### Example Authentication Error Response
+
 ```json
 {
   "message": "Unauthorized"
@@ -503,26 +570,32 @@ This endpoint allows an authenticated captain to retrieve their profile informat
 ```
 
 ## Notes
+
 - Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
 
 # Captain Logout Endpoint
 
 ## Description
+
 This endpoint allows an authenticated captain to log out by invalidating their JWT token.
 
 ## HTTP Method
+
 `GET`
 
 ## Endpoint
+
 `/captains/logout`
 
 ## Responses
 
 ### Success
+
 - **Status Code**: 200 OK
 - **Response Body**: A JSON object containing a success message.
 
 #### Example Success Response
+
 ```json
 {
   "message": "Logged Out"
@@ -530,10 +603,12 @@ This endpoint allows an authenticated captain to log out by invalidating their J
 ```
 
 ### Authentication Errors
+
 - **Status Code**: 401 Unauthorized
 - **Response Body**: A JSON object containing an error message.
 
 #### Example Authentication Error Response
+
 ```json
 {
   "message": "Unauthorized"
@@ -541,20 +616,25 @@ This endpoint allows an authenticated captain to log out by invalidating their J
 ```
 
 ## Notes
+
 - Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
 
 # Ride Creation Endpoint
 
 ## Description
+
 This endpoint allows an authenticated user to create a new ride. It calculates the fare based on the distance and time between the pickup and destination, and generates an OTP for the ride.
 
 ## HTTP Method
+
 `POST`
 
 ## Endpoint
+
 `/rides/create`
 
 ## Request Body
+
 The request body must be a JSON object containing the following fields:
 
 - `pickup` (string, required, minimum 3 characters)
@@ -562,6 +642,7 @@ The request body must be a JSON object containing the following fields:
 - `vehicleType` (string, required, must be one of `auto`, `car`, `moto`)
 
 ### Example Request Body
+
 ```json
 {
   "pickup": "123 Main St",
@@ -573,10 +654,12 @@ The request body must be a JSON object containing the following fields:
 ## Responses
 
 ### Success
+
 - **Status Code**: 201 Created
 - **Response Body**: A JSON object containing the ride details.
 
 #### Example Success Response
+
 ```json
 {
   "user": "user_id",
@@ -589,10 +672,12 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ### Validation Errors
+
 - **Status Code**: 400 Bad Request
 - **Response Body**: A JSON object containing an array of validation error messages.
 
 #### Example Validation Error Response
+
 ```json
 {
   "errors": [
@@ -616,10 +701,12 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ### Authentication Errors
+
 - **Status Code**: 401 Unauthorized
 - **Response Body**: A JSON object containing an error message.
 
 #### Example Authentication Error Response
+
 ```json
 {
   "message": "Unauthorized"
@@ -627,7 +714,91 @@ The request body must be a JSON object containing the following fields:
 ```
 
 ## Notes
+
 - Ensure that the `Content-Type` header is set to `application/json` when making the request.
+- Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
+
+# Get Fare Endpoint
+
+## Description
+
+This endpoint allows an authenticated user to get the fare estimate for a ride based on the pickup and destination locations.
+
+## HTTP Method
+
+`GET`
+
+## Endpoint
+
+`/rides/get-fare`
+
+## Query Parameters
+
+- `pickup` (string, required, minimum 3 characters): The pickup location.
+- `destination` (string, required, minimum 3 characters): The destination location.
+
+### Example Request
+
+```
+GET /rides/get-fare?pickup=123%20Main%20St&destination=456%20Elm%20St
+```
+
+## Responses
+
+### Success
+
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing the fare estimates for different vehicle types.
+
+#### Example Success Response
+
+```json
+{
+  "auto": 50,
+  "car": 100,
+  "moto": 40
+}
+```
+
+### Validation Errors
+
+- **Status Code**: 400 Bad Request
+- **Response Body**: A JSON object containing an array of validation error messages.
+
+#### Example Validation Error Response
+
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Pickup location",
+      "param": "pickup",
+      "location": "query"
+    },
+    {
+      "msg": "Invalid destination location",
+      "param": "destination",
+      "location": "query"
+    }
+  ]
+}
+```
+
+### Authentication Errors
+
+- **Status Code**: 401 Unauthorized
+- **Response Body**: A JSON object containing an error message.
+
+#### Example Authentication Error Response
+
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+## Notes
+
 - Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
 
 # Maps Service Endpoints
@@ -635,24 +806,30 @@ The request body must be a JSON object containing the following fields:
 ## Get Coordinates Endpoint
 
 ### Description
+
 This endpoint allows for retrieving the coordinates of a given address.
 
 ### HTTP Method
+
 `GET`
 
 ### Endpoint
+
 `/maps/get-coordinates`
 
 ### Query Parameters
+
 - `address` (string, required): The address to get coordinates for.
 
 ### Responses
 
 #### Success
+
 - **Status Code**: 200 OK
 - **Response Body**: A JSON object containing the coordinates.
 
 #### Example Success Response
+
 ```json
 {
   "ltd": 37.7749,
@@ -661,31 +838,38 @@ This endpoint allows for retrieving the coordinates of a given address.
 ```
 
 #### Errors
+
 - **Status Code**: 400 Bad Request
 - **Response Body**: A JSON object containing an error message.
 
 ## Get Distance and Time Endpoint
 
 ### Description
+
 This endpoint allows for calculating the distance and time between two locations.
 
 ### HTTP Method
+
 `GET`
 
 ### Endpoint
+
 `/maps/get-distance-time`
 
 ### Query Parameters
+
 - `origin` (string, required): The starting location.
 - `destination` (string, required): The ending location.
 
 ### Responses
 
 #### Success
+
 - **Status Code**: 200 OK
 - **Response Body**: A JSON object containing the distance and time.
 
 #### Example Success Response
+
 ```json
 {
   "distance": {
@@ -701,30 +885,37 @@ This endpoint allows for calculating the distance and time between two locations
 ```
 
 #### Errors
+
 - **Status Code**: 400 Bad Request
 - **Response Body**: A JSON object containing an error message.
 
 ## Get Autocomplete Suggestions Endpoint
 
 ### Description
+
 This endpoint allows for fetching autocomplete suggestions for a given input.
 
 ### HTTP Method
+
 `GET`
 
 ### Endpoint
+
 `/maps/get-suggestions`
 
 ### Query Parameters
+
 - `input` (string, required): The input to get suggestions for.
 
 ### Responses
 
 #### Success
+
 - **Status Code**: 200 OK
 - **Response Body**: A JSON object containing the suggestions.
 
 #### Example Success Response
+
 ```json
 {
   "results": [
@@ -743,5 +934,6 @@ This endpoint allows for fetching autocomplete suggestions for a given input.
 ```
 
 #### Errors
+
 - **Status Code**: 400 Bad Request
 - **Response Body**: A JSON object containing an error message.
