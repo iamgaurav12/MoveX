@@ -1,4 +1,5 @@
 const axios = require("axios");
+const captainModel = require("../models/captain.model");
 
 module.exports.getAddressCoordinate = async (address) => {
   const apiKey = process.env.OpenCage_API;
@@ -117,44 +118,59 @@ const formatDuration = (durationInSeconds) => {
   return result.trim();
 };
 
-module.exports.getAutoCompleteSuggestions = async (input, limit = 10, page = 1) => {
-    if (!input) {
-      throw new Error("Query is required");
+module.exports.getAutoCompleteSuggestions = async (
+  input,
+  limit = 10,
+  page = 1
+) => {
+  if (!input) {
+    throw new Error("Query is required");
+  }
+
+  const apiKey = process.env.OpenCage_API;
+  const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
+    input
+  )}&key=${apiKey}&limit=${limit}&page=${page}`;
+
+  try {
+    const response = await axios.get(url);
+    if (response.data.status.code === 200) {
+      const suggestions = response.data.results;
+
+      // Optional: If you want to format the response similarly to Google's autocomplete API
+      const formattedSuggestions = suggestions.map((suggestion) => ({
+        description: suggestion.formatted,
+        place_id: suggestion.place_id,
+        // You can add more data depending on what's available in the OpenCage response
+      }));
+
+      return {
+        results: formattedSuggestions,
+        status: "OK",
+        // This is a custom field for pagination, as OpenCage doesn't provide offset
+        pagination: {
+          next_page: page + 1, // You can increment the page for pagination
+          current_page: page,
+          total_results: response.data.total_results,
+        },
+      };
+    } else {
+      throw new Error("Unable to fetch suggestions");
     }
-  
-    const apiKey = process.env.OpenCage_API;
-    const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
-      input
-    )}&key=${apiKey}&limit=${limit}&page=${page}`;
-  
-    try {
-      const response = await axios.get(url);
-      if (response.data.status.code === 200) {
-        const suggestions = response.data.results;
-  
-        // Optional: If you want to format the response similarly to Google's autocomplete API
-        const formattedSuggestions = suggestions.map(suggestion => ({
-          description: suggestion.formatted,
-          place_id: suggestion.place_id,
-          // You can add more data depending on what's available in the OpenCage response
-        }));
-  
-        return {
-          results: formattedSuggestions,
-          status: "OK",
-          // This is a custom field for pagination, as OpenCage doesn't provide offset
-          pagination: {
-            next_page: page + 1, // You can increment the page for pagination
-            current_page: page,
-            total_results: response.data.total_results,
-          },
-        };
-      } else {
-        throw new Error("Unable to fetch suggestions");
-      }
-    } catch (err) {
-      console.error(err);
-      throw new Error("Error fetching autocomplete suggestions");
-    }
-  };
-  
+  } catch (err) {
+    console.error(err);
+    throw new Error("Error fetching autocomplete suggestions");
+  }
+};
+
+module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
+  // radius in Km
+  const captains = await captainModel.find({
+    location: {
+      $geoWithin: {
+        $centerSphere: [[ltd, lng], radius / 6371],
+      },
+    },
+  });
+  return captains;
+};

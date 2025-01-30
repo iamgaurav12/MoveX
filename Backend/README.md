@@ -937,3 +937,103 @@ This endpoint allows for fetching autocomplete suggestions for a given input.
 
 - **Status Code**: 400 Bad Request
 - **Response Body**: A JSON object containing an error message.
+
+# Socket Setup
+
+## Description
+
+This section describes the setup and usage of socket.io for real-time communication between the server and clients.
+
+## Initialization
+
+The socket.io server is initialized in the `socket.js` file and is configured to handle connections, disconnections, and custom events.
+
+### Example Initialization
+
+```javascript
+const socketIo = require("socket.io");
+
+let io;
+
+function initializeSocket(server) {
+  io = socketIo(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+    },
+  });
+  io.on("connection", (socket) => {
+    console.log(`New client connected : ${socket.id}`);
+
+    socket.on("join", async (data) => {
+      const { userId, userType } = data;
+      console.log(`User ${userId} joined as ${userType}`);
+      // ...existing code...
+    });
+
+    socket.on("update-location-captain", async (data) => {
+      const { userId, location } = data;
+      console.log(`User ${userId} updated to ${location}`);
+      // ...existing code...
+    });
+
+    socket.on("disconnect", () => {
+      console.log(`Client disconnected : ${socket.id}`);
+    });
+  });
+}
+
+module.exports = {
+  initializeSocket,
+};
+```
+
+## Events
+
+### Join Event
+
+This event is emitted by the client to join a specific room based on user type and ID.
+
+- **Event Name**: `join`
+- **Data**:
+  ```json
+  {
+    "userId": "user_id",
+    "userType": "user" // or "captain"
+  }
+  ```
+
+### Update Location Event
+
+This event is emitted by the captain to update their location.
+
+- **Event Name**: `update-location-captain`
+- **Data**:
+  ```json
+  {
+    "userId": "captain_id",
+    "location": {
+      "ltd": 37.7749,
+      "lng": -122.4194
+    }
+  }
+  ```
+
+### New Ride Event
+
+This event is emitted by the server to notify captains of a new ride request.
+
+- **Event Name**: `new-ride`
+- **Data**:
+  ```json
+  {
+    "event": "new-ride",
+    "data": {
+      // ride details
+    }
+  }
+  ```
+
+## Notes
+
+- Ensure that the client is connected to the socket server and listening for the appropriate events.
