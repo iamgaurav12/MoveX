@@ -543,6 +543,93 @@ This endpoint allows an authenticated captain to log out by invalidating their J
 ## Notes
 - Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
 
+# Ride Creation Endpoint
+
+## Description
+This endpoint allows an authenticated user to create a new ride. It calculates the fare based on the distance and time between the pickup and destination, and generates an OTP for the ride.
+
+## HTTP Method
+`POST`
+
+## Endpoint
+`/rides/create`
+
+## Request Body
+The request body must be a JSON object containing the following fields:
+
+- `pickup` (string, required, minimum 3 characters)
+- `destination` (string, required, minimum 3 characters)
+- `vehicleType` (string, required, must be one of `auto`, `car`, `moto`)
+
+### Example Request Body
+```json
+{
+  "pickup": "123 Main St",
+  "destination": "456 Elm St",
+  "vehicleType": "car"
+}
+```
+
+## Responses
+
+### Success
+- **Status Code**: 201 Created
+- **Response Body**: A JSON object containing the ride details.
+
+#### Example Success Response
+```json
+{
+  "user": "user_id",
+  "pickup": "123 Main St",
+  "destination": "456 Elm St",
+  "fare": 100,
+  "otp": "123456",
+  "status": "pending"
+}
+```
+
+### Validation Errors
+- **Status Code**: 400 Bad Request
+- **Response Body**: A JSON object containing an array of validation error messages.
+
+#### Example Validation Error Response
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid pickup address",
+      "param": "pickup",
+      "location": "body"
+    },
+    {
+      "msg": "Invalid destination address",
+      "param": "destination",
+      "location": "body"
+    },
+    {
+      "msg": "Invalid Vehicle Type",
+      "param": "vehicleType",
+      "location": "body"
+    }
+  ]
+}
+```
+
+### Authentication Errors
+- **Status Code**: 401 Unauthorized
+- **Response Body**: A JSON object containing an error message.
+
+#### Example Authentication Error Response
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+## Notes
+- Ensure that the `Content-Type` header is set to `application/json` when making the request.
+- Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
+
 # Maps Service Endpoints
 
 ## Get Coordinates Endpoint
