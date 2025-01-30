@@ -542,3 +542,119 @@ This endpoint allows an authenticated captain to log out by invalidating their J
 
 ## Notes
 - Ensure that the `Authorization` header is set to `Bearer <token>` when making the request.
+
+# Maps Service Endpoints
+
+## Get Coordinates Endpoint
+
+### Description
+This endpoint allows for retrieving the coordinates of a given address.
+
+### HTTP Method
+`GET`
+
+### Endpoint
+`/maps/get-coordinates`
+
+### Query Parameters
+- `address` (string, required): The address to get coordinates for.
+
+### Responses
+
+#### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing the coordinates.
+
+#### Example Success Response
+```json
+{
+  "ltd": 37.7749,
+  "lng": -122.4194
+}
+```
+
+#### Errors
+- **Status Code**: 400 Bad Request
+- **Response Body**: A JSON object containing an error message.
+
+## Get Distance and Time Endpoint
+
+### Description
+This endpoint allows for calculating the distance and time between two locations.
+
+### HTTP Method
+`GET`
+
+### Endpoint
+`/maps/get-distance-time`
+
+### Query Parameters
+- `origin` (string, required): The starting location.
+- `destination` (string, required): The ending location.
+
+### Responses
+
+#### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing the distance and time.
+
+#### Example Success Response
+```json
+{
+  "distance": {
+    "text": "10 km",
+    "value": 10000
+  },
+  "duration": {
+    "text": "12 mins",
+    "value": 720
+  },
+  "status": "OK"
+}
+```
+
+#### Errors
+- **Status Code**: 400 Bad Request
+- **Response Body**: A JSON object containing an error message.
+
+## Get Autocomplete Suggestions Endpoint
+
+### Description
+This endpoint allows for fetching autocomplete suggestions for a given input.
+
+### HTTP Method
+`GET`
+
+### Endpoint
+`/maps/get-suggestions`
+
+### Query Parameters
+- `input` (string, required): The input to get suggestions for.
+
+### Responses
+
+#### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing the suggestions.
+
+#### Example Success Response
+```json
+{
+  "results": [
+    {
+      "description": "San Francisco, CA, USA",
+      "place_id": "ChIJIQBpAG2ahYAR_6128GcTUEo"
+    }
+  ],
+  "status": "OK",
+  "pagination": {
+    "next_page": 2,
+    "current_page": 1,
+    "total_results": 100
+  }
+}
+```
+
+#### Errors
+- **Status Code**: 400 Bad Request
+- **Response Body**: A JSON object containing an error message.
