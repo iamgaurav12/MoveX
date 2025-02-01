@@ -5,7 +5,7 @@ const WaitingForDriver = (props) => {
     <div>
       <h5
         className="p-3 text-center w-[93%] absolute top-0 "
-        onClick={() => props.WaitingForDriver(false)}
+        onClick={() => props.setWaitingForDriver(false)}
       >
         <i className="text-3xl text-gray-200 ri-arrow-down-wide-fill"></i>
       </h5>
@@ -16,17 +16,20 @@ const WaitingForDriver = (props) => {
           alt="uber-car"
         />
         <div className="text-right">
-          <h2 className="text-lg font-medium">Sarthak</h2>
+          <h2 className="text-lg font-medium capitalize">
+            {props.ride?.captain?.fullname?.firstname}
+          </h2>
           <h4
             className="text-xl font-semibold -mt-1
         -mb-1"
           >
-            MP04 Ab 1234
+            {props.ride?.captain?.vehicle?.plate}
           </h4>
           <p className="text-sm text-gray-600 ">Maruti Suzuki Alto</p>
+          <h1 className="text-2xl font-semibold">{props.ride?.otp}</h1>
         </div>
       </div>
-      
+
       <div className="flex flex-col gap-2 justify-between items-center">
         <div className="w-full mt-5">
           <div className="flex items-center gap-5 p-3 border-b-2 ">
@@ -34,15 +37,8 @@ const WaitingForDriver = (props) => {
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
               <p className="text-base -mt-1 text-gray-600">
-                Kankariya Talab , Ahemdabad
+                {props.ride?.pickup}
               </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-5 p-3 border-b-2 ">
-            <i className="text-lg ri-currency-line"></i>
-            <div>
-              <h3 className="text-lg font-medium">₹193.20</h3>
-              <p className="text-base -mt-1 text-gray-600">Cash Cash</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3  ">
@@ -50,8 +46,15 @@ const WaitingForDriver = (props) => {
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
               <p className="text-base -mt-1 text-gray-600">
-                Kankariya Talab , Ahemdabad
+                {props.ride?.destination}
               </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-5 p-3 border-b-2 ">
+            <i className="text-lg ri-currency-line"></i>
+            <div>
+              <h3 className="text-lg font-medium">{props.ride?.fare}</h3>
+              <p className="text-base -mt-1 text-gray-600">Cash/UPI</p>
             </div>
           </div>
         </div>

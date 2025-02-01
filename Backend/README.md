@@ -1,3 +1,75 @@
+# Uber Backend
+
+This project is a backend application for Uber, built with Node.js, Express, and MongoDB.
+
+## Available Endpoints
+
+- **User Registration**: Endpoint for user registration.
+- **User Login**: Endpoint for user login.
+- **User Profile**: Endpoint for retrieving user profile information.
+- **User Logout**: Endpoint for user logout.
+- **Captain Registration**: Endpoint for captain registration.
+- **Captain Login**: Endpoint for captain login.
+- **Captain Profile**: Endpoint for retrieving captain profile information.
+- **Captain Logout**: Endpoint for captain logout.
+- **Ride Creation**: Endpoint for creating a new ride.
+- **Get Fare**: Endpoint for getting fare estimates.
+- **Start Ride**: Endpoint for starting a ride.
+
+## Getting Started
+
+To get started with the project, clone the repository and install the dependencies:
+
+```bash
+git clone <repository-url>
+cd backend
+npm install
+```
+
+## Running the Application
+
+To run the application, use the following command:
+
+```bash
+npm start
+```
+
+This will start the server on the specified port.
+
+## Running Tests
+
+To run the tests, use the following command:
+
+```bash
+npm test
+```
+
+## Project Structure
+
+- **controllers**: Contains the controller functions for handling requests.
+- **middlewares**: Contains middleware functions for request validation and authentication.
+- **models**: Contains the Mongoose models for MongoDB.
+- **routes**: Contains the route definitions for the application.
+- **services**: Contains the service functions for business logic.
+- **socket**: Contains the socket.io setup and event handlers.
+- **utils**: Contains utility functions.
+
+## Technologies Used
+
+- Node.js
+- Express
+- MongoDB
+- Mongoose
+- Socket.io
+- JWT for authentication
+- bcrypt for password hashing
+- express-validator for input validation
+
+## Notes
+
+- Ensure that the `Content-Type` header is set to `application/json` when making requests.
+- Ensure that the `Authorization` header is set to `Bearer <token>` when making authenticated requests.
+
 # User Registration Endpoint
 
 ## Description

@@ -51,6 +51,24 @@ npm start
 
 This will start the development server and open the application in your default browser.
 
+## Running Tests
+
+To run the tests, use the following command:
+
+```bash
+npm test
+```
+
+## Project Structure
+
+- **src**: Contains the source code for the application.
+  - **assets**: Contains images and other static assets.
+  - **components**: Contains reusable React components.
+  - **context**: Contains context providers for state management.
+  - **pages**: Contains the main pages of the application.
+  - **routes**: Contains route definitions for the application.
+  - **services**: Contains services for API calls and other utilities.
+
 ## Using the Application
 
 1. **Home Page**: Navigate to the home page to get started.

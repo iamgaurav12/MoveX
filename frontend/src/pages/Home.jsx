@@ -11,6 +11,7 @@ import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import { SocketContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -31,9 +32,12 @@ const Home = () => {
   const [activeField, setActiveField] = useState(null);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
+  const [ride, setRide] = useState(null);
 
   const { socket } = useContext(SocketContext);
   const { user } = useContext(UserDataContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(user);
@@ -42,6 +46,17 @@ const Home = () => {
       userId: user._id,
     });
   }, [user]);
+
+  socket.on("ride-confirmed", (ride) => {
+    setWaitingForDriver(true);
+    setVehicleFound(true);
+    setRide(ride);
+  });
+
+  socket.on("ride-started", (ride) => {
+    setWaitingForDriver(false);
+    navigate("/riding");
+  });
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -312,7 +327,12 @@ const Home = () => {
         ref={waitingforDriverRef}
         className="fixed w-full bottom-0 bg-white translate-y-full z-10 px-3 py-6 pt-12"
       >
-        <WaitingForDriver waitingforDriver={waitingforDriver} />
+        <WaitingForDriver
+          ride={ride}
+          setVehicleFound={setVehicleFound}
+          setWaitingForDriver={setWaitingForDriver}
+          waitingForDriver={waitingforDriver}
+        />
       </div>
     </div>
   );
