@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import uberMap from "../assets/uber-map.jpg";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import axios from "axios";
@@ -12,6 +11,7 @@ import WaitingForDriver from "../components/WaitingForDriver";
 import { SocketContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -183,19 +183,33 @@ const Home = () => {
   );
 
   async function findTrip() {
+    if (!pickup || !destination) {
+      alert("Please enter pickup and destination!");
+      return;
+    }
+
     setVehiclePanel(true);
     setPanelOpen(false);
-    const response = await axios.get(
-      `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
-      {
-        params: { pickup, destination },
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    console.log(response.data);
-    setFare(response.data);
+
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
+        {
+          params: { pickup, destination },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      console.log("Fare data:", response.data);
+      setFare(response.data);
+
+      // Update LiveTracking with pickup and destination
+      setRide({ pickup, destination });
+    } catch (error) {
+      console.error("Error fetching fare:", error);
+    }
   }
 
   async function createRide() {
@@ -217,15 +231,18 @@ const Home = () => {
 
   return (
     <div className="h-screen relative overflow-hidden">
+      
       <img
         className="w-16 absolute left-5 top-5"
         src="https://logos-world.net/wp-content/uploads/2020/05/Uber-Logo-700x394.png"
         alt="uber-logo"
       />
-      <div className="h-screen w-screen">
-        {/* Temporary image */}
-        <img className="h-full w-full object-cover" src={uberMap} alt="" />
+      <div className="h-screen w-screen relative">
+        <div className="absolute inset-0 z-0">
+          <LiveTracking pickup={pickup} destination={destination} />
+        </div>
       </div>
+
       <div className="flex flex-col justify-end h-screen absolute top-0 w-full">
         <div className="h-[30%] relative p-5 bg-white ">
           <h5

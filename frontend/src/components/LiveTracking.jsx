@@ -1,12 +1,33 @@
+import React, { useEffect, useState, useContext, useRef } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import L from "leaflet";
+import "leaflet-routing-machine";
+import "leaflet/dist/leaflet.css";
+import { SocketContext } from "../context/SocketContext";
+import { CaptainDataContext } from "../context/CaptainContext";
 
-import React, { useEffect, useState, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-const LiveTracking = () => {
+const markerIcon = new L.Icon({
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+});
+
+const MapUpdater = ({ location }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (location) {
+      map.setView(location, map.getZoom());
+    }
+  }, [location, map]);
+  return null;
+};
+
+const LiveTracking = ({ pickup, destination }) => {
+  const { socket } = useContext(SocketContext);
+  const { captain } = useContext(CaptainDataContext);
   const [location, setLocation] = useState({ lat: 51.505, lng: -0.09 });
-  const [zoom] = useState(13);
-  const mapRef = useRef(null);
+  const routingControlRef = useRef(null);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -21,11 +42,7 @@ const LiveTracking = () => {
           lng: position.coords.longitude,
         };
         setLocation(newLocation);
-
-        // Move map center dynamically
-        if (mapRef.current) {
-          mapRef.current.setView(newLocation, zoom);
-        }
+        socket.emit("updateLocation", newLocation);
       },
       (error) => {
         console.error("Geolocation error:", error);
@@ -34,29 +51,59 @@ const LiveTracking = () => {
       { enableHighAccuracy: true, maximumAge: 10000 }
     );
 
-    return () => navigator.geolocation.clearWatch(watchId); // Cleanup watcher on unmount
-  }, [zoom]);
+    return () => navigator.geolocation.clearWatch(watchId);
+  }, [socket]);
 
-  const markerIcon = new L.Icon({
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-  });
+  useEffect(() => {
+    socket.on("locationUpdate", (newLocation) => {
+      setLocation(newLocation);
+    });
+
+    return () => socket.off("locationUpdate");
+  }, [socket]);
+
+  useEffect(() => {
+    if (!pickup || !destination || !pickup.lat || !pickup.lng || !destination.lat || !destination.lng) return;
+  
+    const map = document.querySelector(".leaflet-container")?._leaflet_id
+      ? null
+      : L.map("map");
+
+    if (routingControlRef.current) {
+      map.removeControl(routingControlRef.current);
+    }
+
+    routingControlRef.current = L.Routing.control({
+      waypoints: [
+        L.latLng(pickup.lat, pickup.lng),
+        L.latLng(destination.lat, destination.lng),
+      ],
+      routeWhileDragging: true,
+    }).addTo(map);
+
+    return () => {
+      if (routingControlRef.current) {
+        map.removeControl(routingControlRef.current);
+      }
+    };
+  }, [pickup, destination]);
 
   return (
     <MapContainer
       center={location}
-      zoom={zoom}
-      style={{ height: '100vh', width: '100%' }}
-      whenCreated={(map) => (mapRef.current = map)}
+      zoom={13}
+      style={{ height: "100vh", width: "100%" }}
     >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
+      <MapUpdater location={location} />
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={location} icon={markerIcon}>
         <Popup>Your live location</Popup>
       </Marker>
+      {captain?.location && (
+        <Marker position={captain.location} icon={markerIcon}>
+          <Popup>Captain's Location</Popup>
+        </Marker>
+      )}
     </MapContainer>
   );
 };
