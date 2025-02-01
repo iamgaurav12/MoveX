@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import uberMap from "../assets/uber-map.jpg";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { SocketContext } from "../context/SocketContext";
 
 const Riding = () => {
+  const location = useLocation();
+  const { ride } = location.state || {};
+  const { socket } = useContext(SocketContext);
+  const navigate = useNavigate();
+
+  socket.on("ride-ended", () => {
+    navigate("/home");
+  });
+  
   return (
     <div className="h-screen">
       <Link
@@ -24,28 +34,32 @@ const Riding = () => {
             alt="uber-car"
           />
           <div className="text-right">
-            <h2 className="text-lg font-medium">Sarthak</h2>
-            <h4 className="text-xl font-semibold -mt-1 -mb-1">MP04 Ab 1234</h4>
+            <h2 className="text-lg font-medium capitalize">
+              {ride?.captain.fullname.firstname}
+            </h2>
+            <h4 className="text-xl font-semibold -mt-1 -mb-1">
+              {ride?.captain.vehicle.plate}
+            </h4>
             <p className="text-sm text-gray-600 ">Maruti Suzuki Alto</p>
           </div>
         </div>
 
         <div className="flex flex-col gap-2 justify-between items-center">
           <div className="w-full mt-5">
-            <div className="flex items-center gap-5 p-3 border-b-2 ">
-              <i className="text-lg ri-currency-line"></i>
-              <div>
-                <h3 className="text-lg font-medium">₹193.20</h3>
-                <p className="text-base -mt-1 text-gray-600">Cash Cash</p>
-              </div>
-            </div>
             <div className="flex items-center gap-5 p-3  ">
               <i className="text-lg ri-map-pin-2-fill"></i>
               <div>
                 <h3 className="text-lg font-medium">562/11-A</h3>
                 <p className="text-base -mt-1 text-gray-600">
-                  Kankariya Talab , Ahemdabad
+                  {ride?.destination}
                 </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-5 p-3 border-b-2 ">
+              <i className="text-lg ri-currency-line"></i>
+              <div>
+                <h3 className="text-lg font-medium">₹{ride?.fare}</h3>
+                <p className="text-base -mt-1 text-gray-600">Cash/UPI</p>
               </div>
             </div>
           </div>

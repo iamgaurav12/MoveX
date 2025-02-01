@@ -8,23 +8,32 @@ const ConfirmRidePopUp = (props) => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    const response = await axios.get(
-      `${import.meta.env.VITE_BASE_URL}/rides/start-ride`,
-      {
-        params: {
-          rideId: props.ride._id,
-          otp: otp,
-        },
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/rides/start-ride`,
+        {
+          params: {
+            rideId: props.ride._id,
+            otp: otp,
+          },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-    if (response.status === 200) {
-      props.setConfirmRidePopupPanel(false);
-      props.setRidePopupPanel(false);
-      navigate("/captain-riding");
+      if (response.status === 200) {
+        props.setConfirmRidePopupPanel(false);
+        props.setRidePopupPanel(false);
+        navigate("/captain-riding", { state: { ride: props.ride } });
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 500) {
+        alert("Server error, please try again later.");
+      } else {
+        console.error("Error starting ride:", error);
+        alert("Unable to start ride, please check your OTP and try again.");
+      }
     }
   };
 
@@ -43,7 +52,7 @@ const ConfirmRidePopUp = (props) => {
         <div className="flex items-center gap-3">
           <img
             className="h-12 w-10 rounded-full object-cover"
-            src="https://imgs.search.brave.com/YloJzM-H9O2GuIG27oWtGrle-n6Fiweuj-XxUIqG3_s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzAyLzlk/L2Y4LzAyOWRmODBm/ODczMzZkOTA1NDRi/NmRmMjVmNTEzZDQ2/LmpwZw"
+            src="https://imgs.search.brave.com/fBOjrMJstxKXeRCLVbMBn9GQIHZW2y6wFrTrUqYWw-c/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxNy8w/NC8xNS8xNy8yMy9w/aXJhdGUtMjIzMjk0/MV82NDAuanBn"
             alt="captain-image"
           />
           <h2 className="text-lg font-medium">

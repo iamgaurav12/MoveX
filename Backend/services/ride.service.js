@@ -123,6 +123,7 @@ module.exports.startRide = async ({ rideId, otp, captain }) => {
   const ride = await rideModel
     .findOne({
       _id: rideId,
+      captain: captain._id, // Ensure the captain is the one starting the ride
     })
     .populate("user")
     .populate("captain")
@@ -153,6 +154,40 @@ module.exports.startRide = async ({ rideId, otp, captain }) => {
     event: "ride-started",
     data: ride,
   });
+
+  return ride;
+};
+
+module.exports.endRide = async ({ rideId, captain }) => {
+  if (!rideId) {
+    throw new Error("Ride id is required");
+  }
+
+  const ride = await rideModel
+    .findOne({
+      _id: rideId,
+      captain: captain._id,
+    })
+    .populate("user")
+    .populate("captain")
+    .select("+otp");
+
+  if (!ride) {
+    throw new Error("Ride not found");
+  }
+
+  if (ride.status !== "ongoing") {
+    throw new Error("Ride not ongoing");
+  }
+
+  await rideModel.findOneAndUpdate(
+    {
+      _id: rideId,
+    },
+    {
+      status: "completed",
+    }
+  );
 
   return ride;
 };
