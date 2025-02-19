@@ -1,0 +1,24 @@
+{
+  "name": "uber",
+  "version": "1.0.0",
+  "description": "This project is a full-stack application for Uber, consisting of a frontend built with **React** and a backend built with **Node.js** and **Express**.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamgaurav12/UBER.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/iamgaurav12/UBER/issues"
+  },
+  "homepage": "https://github.com/iamgaurav12/UBER#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

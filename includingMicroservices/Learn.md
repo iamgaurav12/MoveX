@@ -1,0 +1,2 @@
+1. A microservice is a component of a monolithic application that is separated to handle heavy tasks more efficiently. By creating a clone of this component, we can increase its efficiency and prevent the server from crashing.
+2. Now let's code
