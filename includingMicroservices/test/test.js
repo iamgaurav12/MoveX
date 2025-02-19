@@ -1,6 +1,6 @@
 const autocannon = require("autocannon");
 
-const urls = ["http://localhost:3000", "http://localhost:3000/stress-test"];
+const urls = ["http://localhost:3000"];
 const duration = 30; // in seconds
 
 urls.forEach((url) => {
